@@ -1,0 +1,7 @@
+E:\Coding\SimpleServer\SimpleServer\bin\Debug\SimpleServer.exe.config
+E:\Coding\SimpleServer\SimpleServer\bin\Debug\SimpleServer.exe
+E:\Coding\SimpleServer\SimpleServer\bin\Debug\SimpleServer.pdb
+E:\Coding\SimpleServer\SimpleServer\obj\Debug\SimpleServer.csprojAssemblyReference.cache
+E:\Coding\SimpleServer\SimpleServer\obj\Debug\SimpleServer.csproj.CoreCompileInputs.cache
+E:\Coding\SimpleServer\SimpleServer\obj\Debug\SimpleServer.exe
+E:\Coding\SimpleServer\SimpleServer\obj\Debug\SimpleServer.pdb
