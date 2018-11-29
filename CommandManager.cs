@@ -27,6 +27,7 @@ namespace SimpleServer
             if (!_commands.ContainsKey(command.ElementAt(0))) return null;
 
             var messageCommand = _commands[command.ElementAt(0)];
+            return null;
         }
     }
 }

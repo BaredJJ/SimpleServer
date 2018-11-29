@@ -26,7 +26,7 @@ namespace SimpleServer.MessageCommand
             _log.Write(command.Name);
             return string.Empty;
         }
-
+        //todo
         public IMessageCommand Create(IEnumerable<string> data)
         {
             if (!Enum.TryParse(data.ElementAt(1).ToLower(), out Switch state)) return null;
