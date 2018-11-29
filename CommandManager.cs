@@ -1,33 +1,42 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System;
+using System.Collections.Generic;
 using SimpleServer.Interfaces;
+using SimpleServer.MessageCommand;
 
 namespace SimpleServer
 {
     public class CommandManager:ICommandManager
     {
-        private readonly Dictionary<string, IMessageCommand> _commands;
+        private readonly Dictionary<Commands, Switch> _states;
+        private readonly ICommandFactory _commandFactory;
+        private IResponse _response;
+        private readonly int _id;
 
-        public CommandManager()
+        public CommandManager(ICommandFactory commandFactory, int id)
         {
-            _commands = new Dictionary<string, IMessageCommand>();
+            _commandFactory = commandFactory ?? throw new ArgumentNullException(nameof(commandFactory));
+            _states = new Dictionary<Commands, Switch>();
+            var commands = (Commands[])Enum.GetValues(typeof(Commands));
+            foreach (var command in commands)
+            {
+                _states.Add(command, Switch.off);
+            }
+
+            _id = id;
         }
 
-        public bool AddCommand(IMessageCommand command)
+        public string GetResponse(AcceptCommandDto command)
         {
-            if (command == null) return false;
-            if (_commands.ContainsKey(command.Name)) return false;
+            if(!IsStateChange(command)) return _response.Response();
 
-            _commands.Add(command.Name, command);
-            return true;
+            ChangeState(command);
+            _response = _commandFactory.GetResponseObject(_states, _id);
+
+            return _response.Response();
         }
 
-        public IMessageCommand GetCommand(IEnumerable<string> command)
-        {
-            if (!_commands.ContainsKey(command.ElementAt(0))) return null;
+        private bool IsStateChange(AcceptCommandDto command) => (_states[command.Command] != command.State);
 
-            var messageCommand = _commands[command.ElementAt(0)];
-            return null;
-        }
+        private void ChangeState(AcceptCommandDto command) => _states[command.Command] = command.State;
     }
 }

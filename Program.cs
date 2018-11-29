@@ -18,10 +18,12 @@ namespace SimpleServer
 
         public void Init()
         {
-            var commandManager = new CommandManager();
-            var messageAnalyzer = new MessageAnalyzer(commandManager);
-            var messageServicesFactory = new MessageServiceFactory(messageAnalyzer);
-            _clientManager = new ClientManager(messageServicesFactory);
+            var messageAnalyzer = new MessageAnalyzer();
+            var loggerFactory = new LoggerFactory();
+            var commandFactory = new CommandFactory(loggerFactory);
+            var commandManagerFactory = new CommandManagerFactory(commandFactory);
+            var messageServiceFactory = new MessageServiceFactory(messageAnalyzer, commandManagerFactory);
+            _clientManager = new ClientManager(messageServiceFactory);
             var server = new Server(1023);
             server.OnNewConnected += OnNewConnected;
         }

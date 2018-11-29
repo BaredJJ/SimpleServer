@@ -1,7 +1,9 @@
-﻿namespace SimpleServer.Interfaces
+﻿using SimpleServer.MessageCommand;
+
+namespace SimpleServer.Interfaces
 {
     public interface IMessageAnalyzer
     {
-        IMessageCommand AnalyzeMessage(string message);
+        AcceptCommandDto AnalyzeMessage(string message);
     }
 }

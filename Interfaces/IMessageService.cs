@@ -4,8 +4,6 @@ namespace SimpleServer.Interfaces
 {
     public interface IMessageService
     {
-        event EventHandler OnSendMessage;
-
-        void ProcessMessage(string message);
+       string ProcessMessage(string message);
     }
 }

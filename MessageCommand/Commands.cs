@@ -1,9 +1,10 @@
 ﻿namespace SimpleServer.MessageCommand
 {
-    enum Commands
+    public enum Commands
     {
         time,
         report,
-        log
+        log,
+        Error
     }
 }

@@ -1,30 +1,40 @@
 ﻿using System;
 using System.Linq;
 using SimpleServer.Interfaces;
+using SimpleServer.MessageCommand;
 
 namespace SimpleServer
 {
     public class MessageAnalyzer : IMessageAnalyzer
     {
-        private static readonly char[] Separator = {':', '\\'};
+        private static readonly char[] Separator = {':'};
+        private readonly string[] _commands;
+        private readonly string[] _states;
 
-        private readonly ICommandManager _commandFactory;
-
-        public MessageAnalyzer(ICommandManager commandFactory)
+        public MessageAnalyzer()
         {
-            _commandFactory = commandFactory ?? throw new ArgumentNullException(nameof(commandFactory));
+            _commands = Enum.GetNames(typeof(Commands));
+            _states = Enum.GetNames(typeof(Switch));
         }
 
-        public IMessageCommand AnalyzeMessage(string message)
+        public AcceptCommandDto AnalyzeMessage(string message)
         {
             if (message == null) return null;
             var messageSplit = message.Split(Separator);
             if (messageSplit.Length > 4 || messageSplit.Length < 3) return null;
-            if (messageSplit[messageSplit.Length - 1] != "n" && messageSplit[messageSplit.Length - 2] != "r")
-                return null;
+            Commands acceptCommand = Commands.Error;
+            Switch acceptSwitch = Switch.on;
 
-            var commandData = messageSplit.Where(a => a != "r" || a != "n");
-            return _commandFactory.GetCommand(commandData);
+            var command = _commands.First(a => a == messageSplit[0]);
+            var state = (messageSplit.Length > 3) ? _states.First(a => a == messageSplit[1]) : Switch.on.ToString();
+
+            if (command != null)
+            {
+                Commands.TryParse(command, out acceptCommand);
+                Switch.TryParse(state, out acceptSwitch);
+            }
+
+            return new AcceptCommandDto(acceptCommand, acceptSwitch);
         }
 
         

@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using SimpleServer.MessageCommand;
 
 namespace SimpleServer.Interfaces
 {
     public interface ICommandManager
     {
-        IMessageCommand GetCommand(IEnumerable<string> command);
+        string GetResponse(AcceptCommandDto command);
     }
 }

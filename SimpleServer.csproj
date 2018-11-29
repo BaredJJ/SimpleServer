@@ -44,25 +44,28 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CommandManager.cs" />
+    <Compile Include="CommandManagerFactory.cs" />
     <Compile Include="Interfaces\IClientManager.cs" />
     <Compile Include="Interfaces\IClient.cs" />
+    <Compile Include="Interfaces\ICommandFactory.cs" />
     <Compile Include="Interfaces\ICommandManager.cs" />
+    <Compile Include="Interfaces\ICommandManagerFactory.cs" />
     <Compile Include="Interfaces\ILog.cs" />
     <Compile Include="Interfaces\ILoggerFactory.cs" />
     <Compile Include="Interfaces\IMessageAnalyzer.cs" />
-    <Compile Include="Interfaces\IMessageCommand.cs" />
     <Compile Include="Interfaces\IMessageService.cs" />
     <Compile Include="Interfaces\IMessageServiceFactory.cs" />
     <Compile Include="Interfaces\IResponse.cs" />
+    <Compile Include="LoggerFactory.cs" />
     <Compile Include="MessageAnalyzer.cs" />
+    <Compile Include="MessageCommand\AcceptCommandDto.cs" />
+    <Compile Include="MessageCommand\CommandFactory.cs" />
     <Compile Include="MessageCommand\Commands.cs" />
     <Compile Include="MessageCommand\EmptyResponse.cs" />
-    <Compile Include="MessageCommand\LoggerCommand.cs" />
+    <Compile Include="MessageCommand\ErrorReport.cs" />
     <Compile Include="MessageCommand\LoggerResponse.cs" />
-    <Compile Include="MessageCommand\ReportCommand.cs" />
     <Compile Include="MessageCommand\ResponseDecorate.cs" />
     <Compile Include="MessageCommand\Switch.cs" />
-    <Compile Include="MessageCommand\TimeCommand.cs" />
     <Compile Include="MessageCommand\DateResponse.cs" />
     <Compile Include="MessageCommand\TimerResponse.cs" />
     <Compile Include="MessageService.cs" />
