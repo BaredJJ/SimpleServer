@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using SimpleServer.Interfaces;
 using SimpleServer.MessageCommand;
@@ -7,34 +8,37 @@ namespace SimpleServer
 {
     public class MessageAnalyzer : IMessageAnalyzer
     {
-        private static readonly char[] Separator = {':'};
-        private readonly string[] _commands;
-        private readonly string[] _states;
+        private static readonly char[] Separator = {':','.','\\','\'','?','!','\r','\n'};
+        private readonly List<string> _commands;
+        private readonly List<string> _states;
+        private readonly AcceptCommandDto _defAcceptCommandDto;
 
         public MessageAnalyzer()
         {
-            _commands = Enum.GetNames(typeof(Commands));
-            _states = Enum.GetNames(typeof(Switch));
+            _commands = Enum.GetNames(typeof(Commands)).ToList();
+            _states = Enum.GetNames(typeof(Switch)).ToList();
+            Commands acceptCommand = Commands.Error;
+            Switch acceptSwitch = Switch.on;
+            _defAcceptCommandDto = new AcceptCommandDto(acceptCommand, acceptSwitch);
         }
 
         public AcceptCommandDto AnalyzeMessage(string message)
         {
-            if (message == null) return null;
+
+            if (message == null) return _defAcceptCommandDto;
             var messageSplit = message.Split(Separator);
-            if (messageSplit.Length > 4 || messageSplit.Length < 3) return null;
-            Commands acceptCommand = Commands.Error;
-            Switch acceptSwitch = Switch.on;
+            if (messageSplit.Length < 3 || messageSplit.Length > 4) return _defAcceptCommandDto;
 
-            var command = _commands.First(a => a == messageSplit[0]);
-            var state = (messageSplit.Length > 3) ? _states.First(a => a == messageSplit[1]) : Switch.on.ToString();
+            if (!_commands.Contains(messageSplit[0])) return _defAcceptCommandDto;
 
-            if (command != null)
-            {
-                Commands.TryParse(command, out acceptCommand);
-                Switch.TryParse(state, out acceptSwitch);
-            }
+            var state = Switch.on;
+            if(messageSplit.Length == 4 && _states.Contains(messageSplit[1]))
+                Enum.TryParse(messageSplit[1], out state);
 
-            return new AcceptCommandDto(acceptCommand, acceptSwitch);
+            Enum.TryParse(messageSplit[0], out Commands acceptCommand);
+
+
+            return new AcceptCommandDto(acceptCommand, state);
         }
 
         

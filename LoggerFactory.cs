@@ -1,5 +1,4 @@
-﻿using System;
-using SimpleServer.Interfaces;
+﻿using SimpleServer.Interfaces;
 
 namespace SimpleServer
 {
@@ -7,7 +6,7 @@ namespace SimpleServer
     {
         public ILog GetLog(int id)
         {
-            return null;
+            return new Logger();
         }
     }
 }

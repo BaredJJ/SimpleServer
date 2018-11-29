@@ -19,11 +19,15 @@ namespace SimpleServer.MessageCommand
         {
             var keys = states.Keys.ToArray();
 
-            if(states[Commands.time] == Switch.on && 
-               states[Commands.report] == Switch.off && 
-               states[Commands.log] == Switch.off && 
-               states[Commands.Error] == Switch.off) 
+            if (states[Commands.time] == Switch.on &&
+                states[Commands.report] == Switch.off &&
+                states[Commands.log] == Switch.off &&
+                states[Commands.Error] == Switch.off)
+            {
+                states[Commands.time] = Switch.off;
                 return new DateResponse(new EmptyResponse());
+            }
+
             if (states[Commands.time] == Switch.off && 
                states[Commands.report] == Switch.on && 
                states[Commands.log] == Switch.off && 
@@ -38,19 +42,35 @@ namespace SimpleServer.MessageCommand
                 states[Commands.report] == Switch.on &&
                 states[Commands.log] == Switch.off &&
                 states[Commands.Error] == Switch.off)
+            {
+                states[Commands.time] = Switch.off;
                 return new TimerResponse(new DateResponse(new EmptyResponse()));
+            }
 
             if (states[Commands.time] == Switch.on &&
                 states[Commands.report] == Switch.off &&
                 states[Commands.log] == Switch.on &&
                 states[Commands.Error] == Switch.off)
+            {
+                states[Commands.time] = Switch.off;
                 return new LoggerResponse(new DateResponse(new EmptyResponse()), _loggerFactory.GetLog(id), keys);
+            }
+
+            if (states[Commands.time] == Switch.off &&
+                states[Commands.report] == Switch.on &&
+                states[Commands.log] == Switch.on &&
+                states[Commands.Error] == Switch.off)
+                return new TimerResponse(new LoggerResponse(new EmptyResponse(), _loggerFactory.GetLog(id), keys));
 
             if (states[Commands.time] == Switch.on &&
                 states[Commands.report] == Switch.on &&
                 states[Commands.log] == Switch.on &&
                 states[Commands.Error] == Switch.off)
-                return new TimerResponse(new LoggerResponse(new DateResponse(new EmptyResponse()), _loggerFactory.GetLog(id), keys));
+            {
+                states[Commands.time] = Switch.off;
+                return new TimerResponse(new LoggerResponse(new DateResponse(new EmptyResponse()),
+                    _loggerFactory.GetLog(id), keys));
+            }
 
             return new ErrorReport(new EmptyResponse());
         }

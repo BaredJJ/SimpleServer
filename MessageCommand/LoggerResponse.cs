@@ -7,6 +7,7 @@ namespace SimpleServer.MessageCommand
     {
         private readonly ILog _logger;
         private readonly Commands[] _names;
+        private const string On = "Log on";
 
         //todo нужно подумаьть как сделать красивей. Вдруг надо будет писать не только имена команд.
         public LoggerResponse(IResponse response, ILog logger, Commands[] names) : base(response)
@@ -23,7 +24,7 @@ namespace SimpleServer.MessageCommand
                 _logger.Write(name.ToString());
             }
 
-            return message;
+            return message + On + '\n';
         }
     }
 }

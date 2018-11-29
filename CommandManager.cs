@@ -29,7 +29,7 @@ namespace SimpleServer
         {
             if(!IsStateChange(command)) return _response.Response();
 
-            ChangeState(command);
+            ChangeState(command);//todo нужно подумать как обыграть ситуацию с отключением и подключением.
             _response = _commandFactory.GetResponseObject(_states, _id);
 
             return _response.Response();
