@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net.Sockets;
+using System.Threading.Tasks;
 using SimpleServer.Interfaces;
 
 namespace SimpleServer.Net
@@ -20,10 +21,18 @@ namespace SimpleServer.Net
 
         public void Add(TcpClient client)//todo Подумать о фабрике
         {
-            //if(_clients.Contains(client)) return;
             var newClient = new Client(client, _messageServicesFactory.GetMessageService());
             _clients.Add(newClient);
-            newClient.Start();
+            newClient.OnException += OnException;
+            Task.Run( () => newClient.StartAsync());
+        }
+
+        private void OnException(object sender, EventArgs e)
+        {
+            if(!(sender is Client client)) return;
+
+            _clients.Remove(client);
+            client.Stop();
         }
     }
 }

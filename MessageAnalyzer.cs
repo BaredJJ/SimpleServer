@@ -24,8 +24,8 @@ namespace SimpleServer
 
         public AcceptCommandDto AnalyzeMessage(string message)
         {
-
-            if (message == null) return _defAcceptCommandDto;
+            if (string.IsNullOrEmpty(message)) return null;
+            //if (message == null) return _defAcceptCommandDto;
             var messageSplit = message.Split(Separator);
             if (messageSplit.Length < 1 || messageSplit.Length > 2) return _defAcceptCommandDto;
 

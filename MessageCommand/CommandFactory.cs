@@ -17,7 +17,19 @@ namespace SimpleServer.MessageCommand
         //todo с этим надо что то делать
         public IResponse GetResponseObject(Dictionary<Commands, Switch> states, int id)
         {
-            var keys = states.Keys.ToArray();
+            var keys = states.Select(pair => pair).
+                              Where(pair => pair.Value == Switch.on).
+                              Select(pair => pair.Key).
+                              ToArray();
+
+            if (states[Commands.time] == Switch.off &&
+                states[Commands.report] == Switch.off &&
+                states[Commands.log] == Switch.off &&
+                states[Commands.Error] == Switch.off)
+            {
+                states[Commands.time] = Switch.off;
+                return new EmptyResponse();
+            }
 
             if (states[Commands.time] == Switch.on &&
                 states[Commands.report] == Switch.off &&
@@ -32,7 +44,7 @@ namespace SimpleServer.MessageCommand
                states[Commands.report] == Switch.on && 
                states[Commands.log] == Switch.off && 
                states[Commands.Error] == Switch.off) 
-                return new TimerResponse(new EmptyResponse());
+                return new TimerResponse(new EmptyResponse(), keys);
             if (states[Commands.time] == Switch.off && 
                states[Commands.report] == Switch.off && 
                states[Commands.log] == Switch.on && 
@@ -44,7 +56,7 @@ namespace SimpleServer.MessageCommand
                 states[Commands.Error] == Switch.off)
             {
                 states[Commands.time] = Switch.off;
-                return new TimerResponse(new DateResponse(new EmptyResponse()));
+                return new TimerResponse(new DateResponse(new EmptyResponse()), keys);
             }
 
             if (states[Commands.time] == Switch.on &&
@@ -60,7 +72,7 @@ namespace SimpleServer.MessageCommand
                 states[Commands.report] == Switch.on &&
                 states[Commands.log] == Switch.on &&
                 states[Commands.Error] == Switch.off)
-                return new TimerResponse(new LoggerResponse(new EmptyResponse(), _loggerFactory.GetLog(id), keys));
+                return new TimerResponse(new LoggerResponse(new EmptyResponse(), _loggerFactory.GetLog(id), keys), keys);
 
             if (states[Commands.time] == Switch.on &&
                 states[Commands.report] == Switch.on &&
@@ -69,9 +81,10 @@ namespace SimpleServer.MessageCommand
             {
                 states[Commands.time] = Switch.off;
                 return new TimerResponse(new LoggerResponse(new DateResponse(new EmptyResponse()),
-                    _loggerFactory.GetLog(id), keys));
+                    _loggerFactory.GetLog(id), keys), keys);
             }
 
+            states[Commands.Error] = Switch.off;
             return new ErrorReport(new EmptyResponse());
         }
     }

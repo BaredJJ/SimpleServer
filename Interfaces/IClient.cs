@@ -1,7 +1,10 @@
-﻿namespace SimpleServer.Interfaces
+﻿using System.Threading;
+using System.Threading.Tasks;
+
+namespace SimpleServer.Interfaces
 {
     public interface IClient
     {
-        void Start();
+        Task StartAsync(CancellationToken? token = null);
     }
 }

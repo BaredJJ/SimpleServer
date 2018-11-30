@@ -17,7 +17,7 @@ namespace SimpleServer
         public string ProcessMessage(string message)
         {
             var command = _messageAnalyzer.AnalyzeMessage(message);
-            return _commandManager.GetResponse(command);
+            return command == null ? string.Empty : _commandManager.GetResponse(command);
         }
     }
 }
