@@ -1,4 +1,6 @@
-﻿using System.Net.Sockets;
+﻿using System;
+using System.Net.Sockets;
+using System.Threading.Tasks;
 using SimpleServer.Interfaces;
 using SimpleServer.MessageCommand;
 using SimpleServer.Net;
@@ -24,8 +26,10 @@ namespace SimpleServer
             var commandManagerFactory = new CommandManagerFactory(commandFactory);
             var messageServiceFactory = new MessageServiceFactory(messageAnalyzer, commandManagerFactory);
             _clientManager = new ClientManager(messageServiceFactory);
-            var server = new Server(1023);
+            var server = new Server(120);
             server.OnNewConnected += OnNewConnected;
+            Task.Run(async () => await server.StartAsync());
+            Console.ReadKey();
         }
 
         private void OnNewConnected(object sender, System.EventArgs e)

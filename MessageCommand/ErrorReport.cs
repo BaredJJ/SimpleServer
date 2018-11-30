@@ -8,6 +8,6 @@ namespace SimpleServer.MessageCommand
 
         public ErrorReport(IResponse response) : base(response){}
 
-        public override string Response() => ErrorMessage;
+        public override string Response() => ErrorMessage + '\n' + '\r';
     }
 }

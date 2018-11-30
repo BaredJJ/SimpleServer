@@ -14,7 +14,7 @@ namespace SimpleServer.MessageCommand
             var message = _response.Response();
             stopwatch.Stop();
 
-            return message + stopwatch.ElapsedMilliseconds + '\n';
+            return message + stopwatch.ElapsedMilliseconds + '\n' + '\r';
         }
     }
 }

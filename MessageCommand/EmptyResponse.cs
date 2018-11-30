@@ -6,6 +6,6 @@ namespace SimpleServer.MessageCommand
     {
         private const string _serverName = "BaredJJ server";
 
-        public string Response() => _serverName + '\n';
+        public string Response() => _serverName + '\n' + '\r';
     }
 }

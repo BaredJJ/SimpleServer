@@ -9,7 +9,7 @@ namespace SimpleServer.MessageCommand
 
         public override string Response()
         {
-            return _response.Response() + DateTime.Now + '\n';
+            return _response.Response() + DateTime.Now + '\n'+'\r';
         }
     }
 }

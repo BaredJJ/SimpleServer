@@ -37,8 +37,9 @@ namespace SimpleServer.Net
                 {
                     await Task.Run(async () =>
                     {
-                        var tcpClient = await _listener.AcceptSocketAsync();
-                        OnNewConnected?.Invoke(tcpClient, EventArgs.Empty);
+                        Console.WriteLine("Listening");
+                        var tcpClient = await _listener.AcceptTcpClientAsync();
+                        Task.Run(() => OnNewConnected?.Invoke(tcpClient, EventArgs.Empty));
                     }, _cancellationToken);
                 }
             }

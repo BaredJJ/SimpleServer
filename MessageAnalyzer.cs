@@ -27,12 +27,12 @@ namespace SimpleServer
 
             if (message == null) return _defAcceptCommandDto;
             var messageSplit = message.Split(Separator);
-            if (messageSplit.Length < 3 || messageSplit.Length > 4) return _defAcceptCommandDto;
+            if (messageSplit.Length < 1 || messageSplit.Length > 2) return _defAcceptCommandDto;
 
             if (!_commands.Contains(messageSplit[0])) return _defAcceptCommandDto;
 
             var state = Switch.on;
-            if(messageSplit.Length == 4 && _states.Contains(messageSplit[1]))
+            if(messageSplit.Length == 2 && _states.Contains(messageSplit[1]))
                 Enum.TryParse(messageSplit[1], out state);
 
             Enum.TryParse(messageSplit[0], out Commands acceptCommand);

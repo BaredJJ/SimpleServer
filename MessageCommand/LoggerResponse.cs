@@ -24,7 +24,7 @@ namespace SimpleServer.MessageCommand
                 _logger.Write(name.ToString());
             }
 
-            return message + On + '\n';
+            return message + On + '\n' + '\r';
         }
     }
 }
