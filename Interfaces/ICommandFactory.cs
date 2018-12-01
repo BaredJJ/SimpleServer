@@ -5,6 +5,6 @@ namespace SimpleServer.Interfaces
 {
     public interface ICommandFactory
     {
-        IResponse GetResponseObject(Dictionary<Commands, Switch> states, int id);
+        IResponse GetResponseObject(Dictionary<Commands, Switch> states, int id, KeyValuePair<Commands, Switch> command);
     }
 }

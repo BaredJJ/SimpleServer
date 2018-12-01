@@ -24,7 +24,7 @@ namespace SimpleServer.Net
             var newClient = new Client(client, _messageServicesFactory.GetMessageService());
             _clients.Add(newClient);
             newClient.OnException += OnException;
-            Task.Run( () => newClient.StartAsync());
+            newClient.StartAsync();
         }
 
         private void OnException(object sender, EventArgs e)

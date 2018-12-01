@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Threading.Tasks;
 using SimpleServer.Interfaces;
 
 namespace SimpleServer
@@ -11,6 +10,7 @@ namespace SimpleServer
         private static readonly string _extension = ".txt";
         private readonly string _path;
 
+
         public Logger(int id)
         {
             _path = _defaultPath + id + _extension;
@@ -18,23 +18,16 @@ namespace SimpleServer
 
         public void Write(string message)
         {
-            if (!File.Exists(_path))
-                File.Create(_path);
 
-            using (var fs = new FileStream(_path, FileMode.Append, FileAccess.Write))
-            using (var writer = new StreamWriter(fs))
+
+            try
             {
-                try
-                {
-                   writer.WriteLine(message);
-                }
-                finally
-                {
-                   writer.Close();
-                   fs.Close();
-                }
-             }
-            
+                File.AppendAllText(_path, message);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
         }
     }
 }

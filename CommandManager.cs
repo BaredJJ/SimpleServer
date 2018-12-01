@@ -30,7 +30,8 @@ namespace SimpleServer
             if(!IsStateChange(command)) return _response.Response();
 
             ChangeState(command);//todo нужно подумать как обыграть ситуацию с отключением и подключением.
-            _response = _commandFactory.GetResponseObject(_states, _id);
+            var currentCommand = GetCurrentCommand(command.Command);
+            _response = _commandFactory.GetResponseObject(_states, _id, currentCommand);
 
             return _response.Response();
         }
@@ -38,5 +39,7 @@ namespace SimpleServer
         private bool IsStateChange(AcceptCommandDto command) => (_states[command.Command] != command.State);
 
         private void ChangeState(AcceptCommandDto command) => _states[command.Command] = command.State;
+
+        private KeyValuePair<Commands, Switch> GetCurrentCommand(Commands command) => new KeyValuePair<Commands, Switch>(command, _states[command]);
     }
 }

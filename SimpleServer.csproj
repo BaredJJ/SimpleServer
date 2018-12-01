@@ -65,6 +65,7 @@
     <Compile Include="MessageCommand\EmptyResponse.cs" />
     <Compile Include="MessageCommand\ErrorReport.cs" />
     <Compile Include="MessageCommand\LoggerResponse.cs" />
+    <Compile Include="MessageCommand\OffResponse.cs" />
     <Compile Include="MessageCommand\ResponseDecorate.cs" />
     <Compile Include="MessageCommand\Switch.cs" />
     <Compile Include="MessageCommand\DateResponse.cs" />
